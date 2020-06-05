@@ -1,0 +1,14 @@
+server:
+  port: 9002
+spring:
+  application:
+    name: mi-ad
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql:///project_mi?characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
+  jpa:
+    database: mysql
+    show-sql: true
+    open-in-view: false
