@@ -19,7 +19,7 @@ public class Admin implements Serializable{
 
 	private String loginname;//登陆名称
 	private String password;//密码
-	private String state;//状态
+	private String status;//状态
 
 	
 	public String getId() {		
@@ -43,13 +43,10 @@ public class Admin implements Serializable{
 		this.password = password;
 	}
 
-	public String getState() {		
-		return state;
+	public String getStatus() {
+		return status;
 	}
-	public void setState(String state) {
-		this.state = state;
+	public void setStatus(String status) {
+		this.status = status;
 	}
-
-
-	
 }

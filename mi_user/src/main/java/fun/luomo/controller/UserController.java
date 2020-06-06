@@ -39,6 +39,11 @@ public class UserController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    /**
+     * 登录
+     * @param user
+     * @return
+     */
     @PostMapping("/login")
     public Result login(@RequestBody User user) {
         user = userService.login(user.getUsername(), user.getPassword());
@@ -160,6 +165,7 @@ public class UserController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public Result delete(@PathVariable String id) {
+
         userService.deleteById(id);
         return new Result(true, StatusCode.OK, 0, "删除成功");
     }

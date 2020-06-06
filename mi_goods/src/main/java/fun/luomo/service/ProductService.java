@@ -14,6 +14,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,9 @@ public class ProductService {
 
     @Autowired
     private IdWorker idWorker;
+
+    @Autowired
+    private HttpServletRequest request;
 
     /**
      * 查询全部列表
@@ -96,7 +100,10 @@ public class ProductService {
      * @param product
      */
     public void add(Product product) {
-//        System.out.println(product.getId());
+        String token = (String) request.getAttribute("claims_admin");
+        if (StringUtils.isEmpty(token)) {
+            throw new RuntimeException("权限不足");
+        }
         if (product.getId() == null) {
             product.setId(idWorker.nextId() + "");
         }
@@ -109,6 +116,10 @@ public class ProductService {
      * @param product
      */
     public void update(Product product) {
+        String token = (String) request.getAttribute("claims_admin");
+        if (StringUtils.isEmpty(token)) {
+            throw new RuntimeException("权限不足");
+        }
         productDao.save(product);
     }
 
@@ -118,6 +129,10 @@ public class ProductService {
      * @param id
      */
     public void deleteById(String id) {
+        String token = (String) request.getAttribute("claims_admin");
+        if (StringUtils.isEmpty(token)) {
+            throw new RuntimeException("权限不足");
+        }
         productDao.deleteById(id);
     }
 

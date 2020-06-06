@@ -4,6 +4,7 @@ import entity.PageResult;
 import entity.Result;
 import entity.StatusCode;
 import fun.luomo.pojo.Admin;
+import fun.luomo.pojo.User;
 import fun.luomo.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,6 +30,11 @@ public class AdminController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    /**
+     * 登录
+     * @param admin
+     * @return
+     */
     @PostMapping(value = "/login")
     public Result login(@RequestBody Admin admin) {
         Admin adminLogin = adminService.login(admin);
@@ -41,6 +47,17 @@ public class AdminController {
         map.put("token", token);
         map.put("roles", "admin");
         return new Result(true, 0, StatusCode.OK, "登录成功", map);
+
+    }
+
+    /**
+     * 注册
+     * @return
+     */
+    @PostMapping("/register")
+    public Result regist(@RequestBody Admin admin) throws Exception {
+        adminService.add(admin);
+        return new Result(true, StatusCode.OK, 0, "注册成功");
 
     }
 
@@ -64,7 +81,6 @@ public class AdminController {
     public Result findById(@PathVariable String id) {
         return new Result(true, 0, StatusCode.OK, "查询成功", adminService.findById(id));
     }
-
 
     /**
      * 分页+多条件查询

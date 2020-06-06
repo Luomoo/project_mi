@@ -2,6 +2,7 @@ package fun.luomo.service;
 
 import fun.luomo.dao.UserDao;
 import fun.luomo.pojo.User;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -44,6 +46,15 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
+    @Autowired
+    private HttpServletRequest request;
+
+    /**
+     * 登录
+     * @param username
+     * @param password
+     * @return
+     */
     public User login(String username, String password) {
         User user = userDao.findByUsername(username);
         if (user != null && encoder.matches(password, user.getPassword())) {
@@ -52,6 +63,11 @@ public class UserService {
         return null;
     }
 
+    /**
+     * 发行短信验证码
+     * @param phone
+     * @throws Exception
+     */
     public void sendSms(String phone) throws Exception {
         User checkPhone = userDao.findByPhone(phone);
         if (checkPhone != null) {
@@ -65,9 +81,6 @@ public class UserService {
         map.put("checkCode", checkCode);
 
         rabbitTemplate.convertAndSend("sms",map);
-
-
-
     }
 
     /**
@@ -152,6 +165,10 @@ public class UserService {
      * @param id
      */
     public void deleteById(String id) {
+        String token = (String) request.getAttribute("claims_admin");
+        if (StringUtils.isEmpty(token)) {
+            throw new RuntimeException("权限不足");
+        }
         userDao.deleteById(id);
     }
 

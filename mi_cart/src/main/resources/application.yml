@@ -1,8 +1,8 @@
 server:
-  port: 9001
+  port: 9011
 spring:
   application:
-    name: mi-goods
+    name: mi-cart
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql:///project_mi?characterEncoding=utf-8&useSSL=false
@@ -12,6 +12,11 @@ spring:
     database: mysql
     show-sql: true
     open-in-view: false
+  redis:
+    host: 192.168.211.135
+  rabbitmq:
+    host: 192.168.211.135
 jwt:
   config:
     key: zxcasdqwe1234567890
+

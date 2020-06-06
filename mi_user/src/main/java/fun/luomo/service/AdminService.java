@@ -103,6 +103,7 @@ public class AdminService {
     public void add(Admin admin) {
         admin.setId(idWorker.nextId() + "");
         admin.setPassword(encoder.encode(admin.getPassword()));
+        admin.setStatus("1");
         adminDao.save(admin);
     }
 
