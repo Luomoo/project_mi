@@ -1,8 +1,8 @@
 package fun.luomo.controller;
 
-import java.util.List;
-import java.util.Map;
-
+import entity.PageResult;
+import entity.Result;
+import entity.StatusCode;
 import fun.luomo.pojo.User;
 import fun.luomo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-
-import entity.PageResult;
-import entity.Result;
-import entity.StatusCode;
 import util.JwtUtil;
+
+import java.util.Map;
 
 /**
  * 控制器层

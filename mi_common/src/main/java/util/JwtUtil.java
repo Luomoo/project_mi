@@ -43,10 +43,12 @@ public class JwtUtil {
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
         System.out.println("key"+key);
-        JwtBuilder builder = Jwts.builder().setId(id)
+        JwtBuilder builder = Jwts.builder()
+                .setId(id)
                 .setSubject(subject)
                 .setIssuedAt(now)
-                .signWith(SignatureAlgorithm.HS256, key).claim("roles", roles);
+                .signWith(SignatureAlgorithm.HS256, key)
+                .claim("roles", roles);
         if (ttl > 0) {
             builder.setExpiration( new Date( nowMillis + ttl));
         }

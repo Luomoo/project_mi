@@ -1,25 +1,22 @@
 package fun.luomo.controller;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-
-import fun.luomo.pojo.Carts;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import fun.luomo.pojo.Cart;
-import fun.luomo.service.CartService;
-
 import entity.PageResult;
 import entity.Result;
 import entity.StatusCode;
+import fun.luomo.client.GoodsClient;
+import fun.luomo.pojo.Cart;
+import fun.luomo.pojo.Carts;
+import fun.luomo.pojo.Product;
+import fun.luomo.service.CartService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 控制器层
@@ -34,6 +31,8 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
+    @Autowired
+    private HttpServletRequest request;
 
     /**
      * 查询全部数据
@@ -42,13 +41,18 @@ public class CartController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public Result findAll() {
+       /* String userId = (String) request.getAttribute("claims_userId");
+        String role = (String) request.getAttribute("claims_user");
+        if (StringUtils.isEmpty(userId) && !role.equals("user")) {
+            throw new RuntimeException("权限不足");
+        }*/
         List<Cart> all = cartService.findAll();
         Carts carts = new Carts();
         carts.setCartProductVoList(all);
         int price = 0;
         boolean isAllSelect = true;
         for (Cart cart : all) {
-            if(cart.getProduct_selected().equals("true")){
+            if (cart.getProduct_selected().equals("true")) {
                 price += cart.getQuantity() * cart.getProduct_price();
             }
             if (cart.getProduct_selected().equals("false")) {
@@ -57,6 +61,7 @@ public class CartController {
         }
         carts.setCartTotalPrice(price);
         carts.setSelectedAll(isAllSelect);
+
         return new Result(true, StatusCode.OK, 0, "查询成功", carts);
     }
 
@@ -104,7 +109,8 @@ public class CartController {
     @RequestMapping(method = RequestMethod.POST)
     public Result add(@RequestBody Cart cart) {
         cartService.add(cart);
-        return new Result(true, StatusCode.OK, 0, "增加成功");
+        Result all = findAll();
+        return new Result(true, StatusCode.OK, 0, "增加成功", all);
     }
 
     /**
@@ -116,7 +122,28 @@ public class CartController {
     public Result update(@RequestBody Cart cart, @PathVariable String id) {
         cart.setId(id);
         cartService.update(cart);
-        return new Result(true, StatusCode.OK, 0, "修改成功");
+        Result all = findAll();
+        return new Result(true, StatusCode.OK, 0, "修改成功", all);
+    }
+
+    /**
+     * 选中某一个
+     * @return
+     */
+    @RequestMapping(value = "/SelectOne", method = RequestMethod.PUT)
+    public Result SelectOne(@RequestBody Cart cart) {
+        cartService.SelectOne(cart);
+        return new Result(true, StatusCode.OK, 0, "选择");
+    }
+
+    /**
+     * 取消选中某一个
+     * @return
+     */
+    @RequestMapping(value = "/unSelectOne", method = RequestMethod.PUT)
+    public Result unSelectOne(@RequestBody Cart cart) {
+        cartService.unSelectOne(cart);
+        return new Result(true, StatusCode.OK, 0, "取消选择");
     }
 
     /**
@@ -127,7 +154,39 @@ public class CartController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public Result delete(@PathVariable String id) {
         cartService.deleteById(id);
-        return new Result(true, StatusCode.OK, 0, "删除成功");
+        Result all = findAll();
+        return new Result(true, StatusCode.OK, 0, "删除成功", all);
     }
+
+    /**
+     * 全选中
+     *
+     * @param id
+     */
+    @RequestMapping(value = "/selectAll", method = RequestMethod.PUT)
+    public Result selectAll(@PathVariable String id) {
+        cartService.selectAll();
+        return new Result(true, StatusCode.OK, 0, "全选");
+    }
+
+    /**
+     * 全不选
+     * @param id
+     */
+    @RequestMapping(value = "/unSelectAll", method = RequestMethod.PUT)
+    public Result unSelectAll(@PathVariable String id) {
+        cartService.unSelectAll();
+        return new Result(true, StatusCode.OK, 0, "全不选");
+    }
+    /**
+     * 数量
+     */
+    @RequestMapping(value = "/products/sum", method = RequestMethod.GET)
+    public Result sumProducts() {
+        int sum = cartService.sumProducts();
+        return new Result(true, StatusCode.OK, 0, "商品数量",sum);
+    }
+
+
 
 }

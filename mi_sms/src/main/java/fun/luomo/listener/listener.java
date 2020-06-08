@@ -33,8 +33,8 @@ public class listener {
 
         String param = "{\"code\":" + checkCode + "}";
         System.out.println(param);
-      /*  smsUtil.sendSms(phone, env.getProperty("luomo.sms.verifyCodeTemplate"),env.getProperty("luomo.sms.signName"),
-                param);*/
+       /* smsUtil.sendSms(phone, env.getProperty("luomo.sms.verifyCodeTemplate"),env.getProperty("luomo.sms.signName"),
+                param); */
     }
 
 

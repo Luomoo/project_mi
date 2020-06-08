@@ -8,12 +8,7 @@ import fun.luomo.pojo.Ad;
 import fun.luomo.service.AdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 控制器层
@@ -30,14 +25,23 @@ public class AdController {
 	
 	
 	/**
-	 * 查询全部数据
+	 * 查询全部广告数据
 	 * @return
 	 */
-	@RequestMapping(method= RequestMethod.GET)
+	@GetMapping("/ad")
 	public Result findAll(){
 		return new Result(true, 0, StatusCode.OK,"查询成功",adService.findAll());
 	}
-	
+
+	/**
+	 * 查询全部轮播图数据
+	 * @return
+	 */
+	@GetMapping("/swipe")
+	public Result findAllSwipe(){
+		return new Result(true, 0, StatusCode.OK,"查询成功",adService.findAllSwipe());
+	}
+
 	/**
 	 * 根据ID查询
 	 * @param id ID
@@ -47,7 +51,6 @@ public class AdController {
 	public Result findById(@PathVariable String id){
 		return new Result(true, 0, StatusCode.OK,"查询成功",adService.findById(id));
 	}
-
 
 	/**
 	 * 分页+多条件查询

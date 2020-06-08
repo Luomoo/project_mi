@@ -6,13 +6,13 @@ package entity;
  * Time : 9:12
  * LastEditor Luomo
  */
-public class Result {
+public class Result<T> {
 
     private Boolean flag;
     private Integer code;
     private String message;
     private Integer status;
-    private Object data;
+    private T data;
 
     public Result() {
     }
@@ -25,7 +25,7 @@ public class Result {
 
     }
 
-    public Result(Boolean flag,Integer status, Integer code, String message, Object data) {
+    public Result(Boolean flag,Integer status, Integer code, String message, T data) {
         this.flag = flag;
         this.code = code;
         this.message = message;
@@ -57,11 +57,11 @@ public class Result {
         this.message = message;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 

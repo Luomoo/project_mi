@@ -1,9 +1,6 @@
 package fun.luomo.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -13,6 +10,9 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 import javax.servlet.http.HttpServletRequest;
 
+import entity.Result;
+import fun.luomo.client.GoodsClient;
+import fun.luomo.pojo.Product;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -44,6 +44,9 @@ public class CartService {
     @Autowired
     private HttpServletRequest request;
 
+    @Autowired
+    private GoodsClient goodsClient;
+
     /**
      * 查询全部列表
      *
@@ -52,7 +55,6 @@ public class CartService {
     public List<Cart> findAll() {
         return cartDao.findAll();
     }
-
 
     /**
      * 条件查询+分页
@@ -67,7 +69,6 @@ public class CartService {
         PageRequest pageRequest = PageRequest.of(page - 1, size);
         return cartDao.findAll(specification, pageRequest);
     }
-
 
     /**
      * 条件查询
@@ -97,15 +98,53 @@ public class CartService {
      */
     public void add(Cart cart) {
         cart.setId(idWorker.nextId() + "");
+        String userId = verificationAndGetUserId();
+        cart.setUserId(userId);
+        cart.setQuantity(1);
+        setProductInfo(cart);
+
+      /*  cart.setProduct_name(data.get("name"));
+        cart.setProduct_subtitle(data.get("subtitle"));
+        cart.setProduct_main_image(data.get("main_image"));
+        cart.setProduct_price(Integer.parseInt(data.get("price")));
+        cart.setProduct_name(data.get("name"));
+        cart.setProduct_status("1");
+        cart.setProduct_total_price(Integer.parseInt(data.get("price")));
+        cart.setProduct_stock(data.get("stock"));*/
+        /**
+         * "productName": "iphone7",
+         * "productSubtitle": "双十一促销",
+         * "productMainImage": "mainimage.jpg",
+         * "productPrice": 7199.22,
+         * "productStatus": 1,
+         * "productTotalPrice": 86390.64,
+         * "productStock": 86,
+         */
+
+
+        cartDao.save(cart);
+    }
+
+    private String verificationAndGetUserId() {
         String userId = (String) request.getAttribute("claims_userId");
         String role = (String) request.getAttribute("claims_user");
-        System.out.println(userId);
-        System.out.println(role);
-        if (StringUtils.isEmpty(userId)) {
+        if (StringUtils.isEmpty(userId) && !role.equals("user")) {
             throw new RuntimeException("权限不足");
         }
-        cart.setUserId(userId);
-        cartDao.save(cart);
+        return userId;
+    }
+
+    private void setProductInfo(Cart cart) {
+        Product product = goodsClient.findById(cart.getProductId()).getData();
+        cart.setProduct_name(product.getName());
+        cart.setProduct_subtitle(product.getSubtitle());
+        cart.setProduct_main_image(product.getMainImage());
+        cart.setProduct_price(product.getPrice());
+        cart.setProduct_name(product.getName());
+        cart.setProduct_status("1");
+        cart.setProduct_total_price(product.getPrice());
+        cart.setProduct_stock(product.getStock() + "");
+        cart.setProduct_selected("true");
     }
 
     /**
@@ -114,7 +153,7 @@ public class CartService {
      * @param cart
      */
     public void update(Cart cart) {
-        cartDao.save(cart);
+        cartDao.update(cart.getQuantity(), cart.getId());
     }
 
     /**
@@ -183,4 +222,35 @@ public class CartService {
 
     }
 
+    public void selectAll() {
+        List<Cart> all = cartDao.findAll();
+        for (Cart cart : all) {
+            cart.setProduct_selected("true");
+        }
+    }
+
+    public void unSelectAll() {
+        List<Cart> all = cartDao.findAll();
+        for (Cart cart : all) {
+            cart.setProduct_selected("false");
+        }
+    }
+
+    public int sumProducts() {
+        int count = 0;
+        List<Cart> list = cartDao.findAll();
+        for (Cart cart : list) {
+            count += cart.getQuantity();
+        }
+        return count;
+    }
+
+    public void SelectOne(Cart cart) {
+        cartDao.selectOne("true", cart.getId());
+
+    }
+
+    public void unSelectOne(Cart cart) {
+        cartDao.unSelectOne("false", cart.getId());
+    }
 }

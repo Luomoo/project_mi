@@ -25,128 +25,158 @@ import util.IdWorker;
 
 /**
  * 服务层
- * 
- * @author Administrator
  *
+ * @author Administrator
  */
 @Service
 public class AdService {
 
-	@Autowired
-	private AdDao adDao;
-	
-	@Autowired
-	private IdWorker idWorker;
+    @Autowired
+    private AdDao adDao;
 
-	/**
-	 * 查询全部列表
-	 * @return
-	 */
-	public List<Ad> findAll() {
-		return adDao.findAll();
-	}
+    @Autowired
+    private IdWorker idWorker;
 
-	
-	/**
-	 * 条件查询+分页
-	 * @param whereMap
-	 * @param page
-	 * @param size
-	 * @return
-	 */
-	public Page<Ad> findSearch(Map whereMap, int page, int size) {
-		Specification<Ad> specification = createSpecification(whereMap);
-		PageRequest pageRequest =  PageRequest.of(page-1, size);
-		return adDao.findAll(specification, pageRequest);
-	}
+    /**
+     * 查询全部广告列表
+     *
+     * @return
+     */
+    public List<Ad> findAll() {
+        List<Ad> adList = new ArrayList<>();
+        List<Ad> all = adDao.findAll();
+        for (Ad ad : all) {
+            if (!"1".equals(ad.getPosition())) {
+                adList.add(ad);
+            }
+        }
+        return adList;
+    }
 
-	
-	/**
-	 * 条件查询
-	 * @param whereMap
-	 * @return
-	 */
-	public List<Ad> findSearch(Map whereMap) {
-		Specification<Ad> specification = createSpecification(whereMap);
-		return adDao.findAll(specification);
-	}
+    /**
+     * 轮播图
+     *
+     * @return
+     */
+    public List<Ad> findAllSwipe() {
+        List<Ad> adList = new ArrayList<>();
+        List<Ad> all = adDao.findAll();
+        for (Ad ad : all) {
+            if ("1".equals(ad.getPosition())) {
+                adList.add(ad);
+            }
+        }
+        return adList;
+    }
 
-	/**
-	 * 根据ID查询实体
-	 * @param id
-	 * @return
-	 */
-	public Ad findById(String id) {
-		return adDao.findById(id).get();
-	}
+    /**
+     * 条件查询+分页
+     *
+     * @param whereMap
+     * @param page
+     * @param size
+     * @return
+     */
+    public Page<Ad> findSearch(Map whereMap, int page, int size) {
+        Specification<Ad> specification = createSpecification(whereMap);
+        PageRequest pageRequest = PageRequest.of(page - 1, size);
+        return adDao.findAll(specification, pageRequest);
+    }
 
-	/**
-	 * 增加
-	 * @param ad
-	 */
-	public void add(Ad ad) {
-		ad.setId(idWorker.nextId()+"" );
-		adDao.save(ad);
-	}
 
-	/**
-	 * 修改
-	 * @param ad
-	 */
-	public void update(Ad ad) {
-		adDao.save(ad);
-	}
+    /**
+     * 条件查询
+     *
+     * @param whereMap
+     * @return
+     */
+    public List<Ad> findSearch(Map whereMap) {
+        Specification<Ad> specification = createSpecification(whereMap);
+        return adDao.findAll(specification);
+    }
 
-	/**
-	 * 删除
-	 * @param id
-	 */
-	public void deleteById(String id) {
-		adDao.deleteById(id);
-	}
+    /**
+     * 根据ID查询实体
+     *
+     * @param id
+     * @return
+     */
+    public Ad findById(String id) {
+        return adDao.findById(id).get();
+    }
 
-	/**
-	 * 动态条件构建
-	 * @param searchMap
-	 * @return
-	 */
-	private Specification<Ad> createSpecification(Map searchMap) {
+    /**
+     * 增加
+     *
+     * @param ad
+     */
+    public void add(Ad ad) {
+        ad.setId(idWorker.nextId() + "");
+        adDao.save(ad);
+    }
 
-		return new Specification<Ad>() {
+    /**
+     * 修改
+     *
+     * @param ad
+     */
+    public void update(Ad ad) {
+        adDao.save(ad);
+    }
 
-			@Override
-			public Predicate toPredicate(Root<Ad> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-				List<Predicate> predicateList = new ArrayList<Predicate>();
+    /**
+     * 删除
+     *
+     * @param id
+     */
+    public void deleteById(String id) {
+        adDao.deleteById(id);
+    }
+
+    /**
+     * 动态条件构建
+     *
+     * @param searchMap
+     * @return
+     */
+    private Specification<Ad> createSpecification(Map searchMap) {
+
+        return new Specification<Ad>() {
+
+            @Override
+            public Predicate toPredicate(Root<Ad> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                List<Predicate> predicateList = new ArrayList<Predicate>();
                 // 广告名称
-                if (searchMap.get("name")!=null && !"".equals(searchMap.get("name"))) {
-                	predicateList.add(cb.like(root.get("name").as(String.class), "%"+(String)searchMap.get("name")+"%"));
+                if (searchMap.get("name") != null && !"".equals(searchMap.get("name"))) {
+                    predicateList.add(cb.like(root.get("name").as(String.class), "%" + (String) searchMap.get("name") + "%"));
                 }
                 // 广告位置
-                if (searchMap.get("position")!=null && !"".equals(searchMap.get("position"))) {
-                	predicateList.add(cb.like(root.get("position").as(String.class), "%"+(String)searchMap.get("position")+"%"));
+                if (searchMap.get("position") != null && !"".equals(searchMap.get("position"))) {
+                    predicateList.add(cb.like(root.get("position").as(String.class), "%" + (String) searchMap.get("position") + "%"));
                 }
                 // 状态
-                if (searchMap.get("status")!=null && !"".equals(searchMap.get("status"))) {
-                	predicateList.add(cb.like(root.get("status").as(String.class), "%"+(String)searchMap.get("status")+"%"));
+                if (searchMap.get("status") != null && !"".equals(searchMap.get("status"))) {
+                    predicateList.add(cb.like(root.get("status").as(String.class), "%" + (String) searchMap.get("status") + "%"));
                 }
                 // 图片地址
-                if (searchMap.get("image")!=null && !"".equals(searchMap.get("image"))) {
-                	predicateList.add(cb.like(root.get("image").as(String.class), "%"+(String)searchMap.get("image")+"%"));
+                if (searchMap.get("image") != null && !"".equals(searchMap.get("image"))) {
+                    predicateList.add(cb.like(root.get("image").as(String.class), "%" + (String) searchMap.get("image") + "%"));
                 }
                 // URL
-                if (searchMap.get("url")!=null && !"".equals(searchMap.get("url"))) {
-                	predicateList.add(cb.like(root.get("url").as(String.class), "%"+(String)searchMap.get("url")+"%"));
+                if (searchMap.get("url") != null && !"".equals(searchMap.get("url"))) {
+                    predicateList.add(cb.like(root.get("url").as(String.class), "%" + (String) searchMap.get("url") + "%"));
                 }
                 // 备注
-                if (searchMap.get("remarks")!=null && !"".equals(searchMap.get("remarks"))) {
-                	predicateList.add(cb.like(root.get("remarks").as(String.class), "%"+(String)searchMap.get("remarks")+"%"));
+                if (searchMap.get("remarks") != null && !"".equals(searchMap.get("remarks"))) {
+                    predicateList.add(cb.like(root.get("remarks").as(String.class), "%" + (String) searchMap.get("remarks") + "%"));
                 }
-				
-				return cb.and( predicateList.toArray(new Predicate[predicateList.size()]));
 
-			}
-		};
+                return cb.and(predicateList.toArray(new Predicate[predicateList.size()]));
 
-	}
+            }
+        };
+
+    }
+
 
 }
