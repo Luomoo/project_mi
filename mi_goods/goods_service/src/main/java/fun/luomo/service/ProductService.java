@@ -43,6 +43,10 @@ public class ProductService {
      */
 
     public List<Product> findAll() {
+       /* String token = (String) request.getAttribute("claims_user");
+        if (StringUtils.isEmpty(token)) {
+            throw new RuntimeException("权限不足");
+        }*/
         return productDao.findAll();
     }
 

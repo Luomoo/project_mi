@@ -1,10 +1,11 @@
 package fun.luomo.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -19,8 +20,6 @@ public class User implements Serializable {
 
     @Id
     private String id;//
-
-
     private String username;//用户名
     private String password;//密码，加密存储
     private String phone;//注册手机号

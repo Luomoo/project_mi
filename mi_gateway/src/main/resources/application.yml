@@ -18,10 +18,19 @@ zuul:
     mi-user:
       path: /user/**
       service-id: mi-user
-    mi-goods: /goods/**
-    mi-cart: /**
-    mi-ad: /**
-    mi-sms: /**
+    mi-goods:
+      path: /goods/**
+      service-id: mi-goods
+    mi-cart:
+      path: /cart/**
+      service-id: mi-cart
+    mi-ad:
+      path: /ad/**
+      service-id: mi-ad
+    mi-sms:
+      path: /sms/**
+      service-id: mmi-sms
+
   add-host-header: true
   sensitive-headers:  #设置zuul的过滤头为空（所有的头信息全部展示）
 ribbon:

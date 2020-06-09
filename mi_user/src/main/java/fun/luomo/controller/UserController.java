@@ -9,10 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import util.JwtUtil;
 
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * 控制器层
@@ -38,6 +44,7 @@ public class UserController {
 
     /**
      * 登录
+     *
      * @param user
      * @return
      */
@@ -45,11 +52,11 @@ public class UserController {
     public Result login(@RequestBody User user) {
         user = userService.login(user.getUsername(), user.getPassword());
         if (user == null) {
-            return new Result(true,0, StatusCode.OK, "登录失败");
+            return new Result(true, 0, StatusCode.OK, "登录失败");
         }
         String token = jwtUtil.createJWT(user.getId(), user.getUsername(), "user");
 
-        return new Result(true, 0,StatusCode.OK, "登录成功", token);
+        return new Result(true, 0, StatusCode.OK, "登录成功", token);
     }
 
     /**
@@ -68,8 +75,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/register/{code}")
-    public Result regist(@PathVariable String code, @RequestBody User user) throws Exception {
-
+    public Result regist(@PathVariable String code, @RequestBody @Valid User user, BindingResult result) throws Exception {
         String checkCodeRedis = redisTemplate.opsForValue().get("checkCode_" + user.getPhone());
 
         if (checkCodeRedis.isEmpty()) {

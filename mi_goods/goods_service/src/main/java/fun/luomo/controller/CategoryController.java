@@ -3,6 +3,7 @@ package fun.luomo.controller;
 import entity.PageResult;
 import entity.Result;
 import entity.StatusCode;
+import fun.luomo.pojo.CP;
 import fun.luomo.pojo.Category;
 import fun.luomo.service.CategoryService;
 import fun.luomo.service.ProductService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,6 +30,11 @@ public class CategoryController {
     @Autowired
     private ProductService productService;
 
+    @GetMapping("/findCP")
+    public Result finCP() {
+        List<CP> cp = categoryService.findCP();
+        return new Result(true, 0, StatusCode.OK, "查询成功",  cp);
+    }
 
     /**
      * 查询全部数据
