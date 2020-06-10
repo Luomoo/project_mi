@@ -26,6 +26,7 @@ hs_err_pid*
 *.iml
 .idea
 **/target
-*/*/target
+*/target
+*/*/target/
 mi_sms/src/main/resources/application.yml
 mi_user/src/main/resources/application.yml
