@@ -56,6 +56,17 @@ public class CartService {
         return cartDao.findAll();
     }
 
+
+    /**
+     * 查询当前用户全部列表
+     *
+     * @return
+     */
+    public List<Cart> findAllByUserId(String id ) {
+        return cartDao.findAllByUserId(id);
+    }
+
+
     /**
      * 条件查询+分页
      *

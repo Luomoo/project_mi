@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 数据访问接口
@@ -31,4 +32,6 @@ public interface CartDao extends JpaRepository<Cart, String>, JpaSpecificationEx
     @Query(value = "UPDATE cart SET product_selected=?1 WHERE id=?2", nativeQuery = true)
     @Modifying
     void unSelectOne(String select, String id);
+
+    List<Cart> findAllByUserId(String id);
 }

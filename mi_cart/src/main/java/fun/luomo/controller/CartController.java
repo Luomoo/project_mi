@@ -41,12 +41,12 @@ public class CartController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public Result findAll() {
-       /* String userId = (String) request.getAttribute("claims_userId");
+        String userId = (String) request.getAttribute("claims_userId");
         String role = (String) request.getAttribute("claims_user");
         if (StringUtils.isEmpty(userId) && !role.equals("user")) {
             throw new RuntimeException("权限不足");
-        }*/
-        List<Cart> all = cartService.findAll();
+        }
+        List<Cart> all = cartService.findAllByUserId(userId);
         Carts carts = new Carts();
         carts.setCartProductVoList(all);
         int price = 0;
