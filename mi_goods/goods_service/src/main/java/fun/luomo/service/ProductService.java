@@ -1,7 +1,9 @@
 package fun.luomo.service;
 
 import fun.luomo.dao.ProductDao;
+import fun.luomo.dao.ProductKeyDao;
 import fun.luomo.pojo.Product;
+import fun.luomo.pojo.ProductKey;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,6 +31,8 @@ public class ProductService {
 
     @Autowired
     private ProductDao productDao;
+    @Autowired
+    private ProductKeyDao productKeyDao;
 
     @Autowired
     private IdWorker idWorker;
@@ -41,7 +45,6 @@ public class ProductService {
      *
      * @return
      */
-
     public List<Product> findAll() {
        /* String token = (String) request.getAttribute("claims_user");
         if (StringUtils.isEmpty(token)) {
@@ -49,6 +52,20 @@ public class ProductService {
         }*/
         return productDao.findAll();
     }
+
+    /**
+     * 查询全部关键信息
+     *
+     * @return
+     */
+    public List<ProductKey> findAllForKey() {
+       /* String token = (String) request.getAttribute("claims_user");
+        if (StringUtils.isEmpty(token)) {
+            throw new RuntimeException("权限不足");
+        }*/
+        return productKeyDao.findAll();
+    }
+
 
     /**
      * 条件查询+分页

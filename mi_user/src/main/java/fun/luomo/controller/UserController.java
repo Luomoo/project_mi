@@ -5,6 +5,7 @@ import entity.Result;
 import entity.StatusCode;
 import fun.luomo.pojo.User;
 import fun.luomo.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -14,6 +15,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import util.JwtUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +43,20 @@ public class UserController {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private HttpServletRequest request;
+
+    @GetMapping("/currentUser")
+    public String currentUser() {
+        String token = (String) request.getAttribute("claims_user");
+        String userid = (String) request.getAttribute("claims_userName");
+        if (StringUtils.isEmpty(token)) {
+            throw new RuntimeException("没有登录");
+        }
+        return userid;
+
+    }
 
     /**
      * 登录
@@ -78,13 +94,9 @@ public class UserController {
     public Result regist(@PathVariable String code, @RequestBody @Valid User user, BindingResult result) throws Exception {
         String checkCodeRedis = redisTemplate.opsForValue().get("checkCode_" + user.getPhone());
 
-        if (checkCodeRedis.isEmpty()) {
+        /*if (checkCodeRedis.isEmpty()||!checkCodeRedis.equals(code)) {
             return new Result(false, 0, StatusCode.ERROR, "验证码错误");
-        }
-        if (!checkCodeRedis.equals(code)) {
-            return new Result(false, 0, StatusCode.ERROR, "验证码错误");
-        }
-
+        }*/
         userService.add(user);
         return new Result(true, StatusCode.OK, 0, "注册成功");
 

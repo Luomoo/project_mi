@@ -18,7 +18,7 @@ import java.util.Map;
  * @author Administrator
  */
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/goods/product")
 public class ProductController {
 
     @Autowired
@@ -36,7 +36,7 @@ public class ProductController {
     public Result findAll() {
         String header = request.getHeader("Authorization");
         System.out.println("ProductController:" + header);
-        return new Result(true, 0, StatusCode.OK, "查询成功", productService.findAll());
+        return new Result(true, 0, StatusCode.OK, "查询成功", productService.findAllForKey());
     }
 
     /**

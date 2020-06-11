@@ -1,8 +1,5 @@
 package fun.luomo.pojo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -16,7 +13,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="product")
-public class Product implements Serializable{
+public class ProductKey implements Serializable{
 
 	@Id
 	private String id;
@@ -27,15 +24,8 @@ public class Product implements Serializable{
 	private String mainImage;
 	private String subImages;
 	private Integer status;
-	private String detail;
 	private Integer price;
 	private Integer stock;
-
-//	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-	private Date createTime;
-
-//	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-	private Date updateTime;
 
 	public String getId() {
 		return id;
@@ -93,14 +83,6 @@ public class Product implements Serializable{
 		this.status = status;
 	}
 
-	public String getDetail() {
-		return detail;
-	}
-
-	public void setDetail(String detail) {
-		this.detail = detail;
-	}
-
 	public Integer getPrice() {
 		return price;
 	}
@@ -115,21 +97,5 @@ public class Product implements Serializable{
 
 	public void setStock(Integer stock) {
 		this.stock = stock;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
 	}
 }

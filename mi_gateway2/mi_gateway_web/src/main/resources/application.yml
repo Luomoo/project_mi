@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: mi-gateway-web
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]': # 匹配所有请求
+            allowedOrigins: "*" #跨域处理 允许所有的域
+            allowedMethods: # 支持的方法
+              - GET
+              - POST
+              - PUT
+              - DELETE
+      routes:
+        - id: mi_ad_route
+          uri: lb://mi-ad
+          predicates:
+          - Path=/api/ad/**
+          filters:
+          - StripPrefix= 1
+        - id: mi_goods_route
+          uri: lb://mi-goods
+          predicates:
+          - Path=/api/goods/**
+          filters:
+          - StripPrefix= 1
+        - id: mi_cart_route
+          uri: lb://mi-cart
+          predicates:
+          - Path=/api/cart/**
+          filters:
+          - StripPrefix= 1
+        - id: mi_user_route
+          uri: lb://mi-user
+          predicates:
+          - Path=/api/user/**
+          filters:
+          - StripPrefix= 1
+
+server:
+  port: 10011
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+  instance:
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+    #    instance-id: ${eureka.instance.ip-address}.${server.port}
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 15
+management:
+  endpoint:
+    gateway:
+      enabled: true
+    web:
+      exposuure:
+        include: true

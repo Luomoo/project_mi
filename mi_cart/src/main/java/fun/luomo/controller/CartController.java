@@ -51,17 +51,22 @@ public class CartController {
         carts.setCartProductVoList(all);
         int price = 0;
         boolean isAllSelect = true;
+        int selectCount = 0;
+        int allCount = 0;
         for (Cart cart : all) {
             if (cart.getProduct_selected().equals("true")) {
                 price += cart.getQuantity() * cart.getProduct_price();
+                selectCount += cart.getQuantity();
             }
             if (cart.getProduct_selected().equals("false")) {
                 isAllSelect = false;
             }
+            allCount += cart.getQuantity();
         }
         carts.setCartTotalPrice(price);
         carts.setSelectedAll(isAllSelect);
-
+        carts.setTotalCount(allCount);
+        carts.setSelectCount(selectCount);
         return new Result(true, StatusCode.OK, 0, "查询成功", carts);
     }
 

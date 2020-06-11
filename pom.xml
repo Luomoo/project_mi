@@ -19,6 +19,7 @@
         <module>mi_eureka</module>
         <module>mi_gateway</module>
         <module>mi_gateway2</module>
+        <module>mi_order</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -81,10 +82,10 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-        <dependency>
+       <!-- <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>

@@ -146,8 +146,8 @@ public class UserService {
         }
         user.setPassword(encoder.encode(user.getPassword()));
         user.setCreated(new Date());
-        redisTemplate.delete("checkCode_" + user.getPhone());
         userDao.save(user);
+        redisTemplate.delete("checkCode_" + user.getPhone());
     }
 
     /**

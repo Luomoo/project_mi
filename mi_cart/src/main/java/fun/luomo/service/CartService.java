@@ -48,6 +48,22 @@ public class CartService {
     private GoodsClient goodsClient;
 
     /**
+     * 查询选中数量
+     * @return
+     */
+    public int findSelectCount(String userId){
+        return cartDao.findSelectCount(userId);
+    }
+
+    /**
+     * 查询所有数量
+     * @return
+     */
+    public int findAllCount(String userId){
+        return cartDao.findAllCount(userId);
+    }
+
+    /**
      * 查询全部列表
      *
      * @return
@@ -55,7 +71,6 @@ public class CartService {
     public List<Cart> findAll() {
         return cartDao.findAll();
     }
-
 
     /**
      * 查询当前用户全部列表

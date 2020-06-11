@@ -34,4 +34,10 @@ public interface CartDao extends JpaRepository<Cart, String>, JpaSpecificationEx
     void unSelectOne(String select, String id);
 
     List<Cart> findAllByUserId(String id);
+
+    @Query(value = "SELECT count(1) FROM `cart` where user_id= ? AND product_selected='true'", nativeQuery = true)
+    int findSelectCount(String id);
+
+    @Query(value = "SELECT count(1) FROM `cart` where user_id= ?", nativeQuery = true)
+    int findAllCount(String id);
 }

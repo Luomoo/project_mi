@@ -27,12 +27,17 @@ public class JwtInterceptor implements HandlerInterceptor {
                 try {
                     Claims claims = jwtUtil.parseJWT(token);
                     String roles = (String) claims.get("roles");
-                    System.out.println(roles);
+                    String id = claims.getId();
+                    String sub = claims.getSubject();
                     if (roles != null && roles.equals("admin")) {
                         request.setAttribute("claims_admin", token);
+                        request.setAttribute("claims_adminId", id);
+                        request.setAttribute("claims_adminName", sub);
                     }
                     if (roles != null && roles.equals("user")) {
                         request.setAttribute("claims_user", token);
+                        request.setAttribute("claims_userId", id);
+                        request.setAttribute("claims_userName", sub);
                     }
                 } catch (Exception e) {
                     throw new RuntimeException("令牌有误");

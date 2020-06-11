@@ -11,6 +11,9 @@ public class Carts {
     private List<Cart> cartProductVoList;
     private Boolean selectedAll;
     private Integer cartTotalPrice;
+    private Integer totalCount;
+    private Integer selectCount;
+
 
     public List<Cart> getCartProductVoList() {
         return cartProductVoList;
@@ -36,4 +39,19 @@ public class Carts {
         this.cartTotalPrice = cartTotalPrice;
     }
 
+    public Integer getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(Integer totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public Integer getSelectCount() {
+        return selectCount;
+    }
+
+    public void setSelectCount(Integer selectCount) {
+        this.selectCount = selectCount;
+    }
 }
