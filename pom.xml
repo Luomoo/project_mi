@@ -20,6 +20,7 @@
         <module>mi_gateway</module>
         <module>mi_gateway2</module>
         <module>mi_order</module>
+        <module>mi_config</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
