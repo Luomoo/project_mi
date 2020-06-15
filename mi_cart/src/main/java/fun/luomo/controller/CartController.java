@@ -43,8 +43,11 @@ public class CartController {
     public Result findAll() {
         String userId = (String) request.getAttribute("claims_userId");
         String role = (String) request.getAttribute("claims_user");
-        if (StringUtils.isEmpty(userId) && !role.equals("user")) {
-            throw new RuntimeException("权限不足");
+        if (StringUtils.isEmpty(userId)) {
+            if (!"user".equals(role)) {
+                throw new RuntimeException("权限不足");
+            }
+
         }
         List<Cart> all = cartService.findAllByUserId(userId);
         Carts carts = new Carts();
@@ -133,6 +136,7 @@ public class CartController {
 
     /**
      * 选中某一个
+     *
      * @return
      */
     @RequestMapping(value = "/SelectOne", method = RequestMethod.PUT)
@@ -143,6 +147,7 @@ public class CartController {
 
     /**
      * 取消选中某一个
+     *
      * @return
      */
     @RequestMapping(value = "/unSelectOne", method = RequestMethod.PUT)
@@ -176,6 +181,7 @@ public class CartController {
 
     /**
      * 全不选
+     *
      * @param id
      */
     @RequestMapping(value = "/unSelectAll", method = RequestMethod.PUT)
@@ -183,15 +189,15 @@ public class CartController {
         cartService.unSelectAll();
         return new Result(true, StatusCode.OK, 0, "全不选");
     }
+
     /**
      * 数量
      */
     @RequestMapping(value = "/products/sum", method = RequestMethod.GET)
     public Result sumProducts() {
         int sum = cartService.sumProducts();
-        return new Result(true, StatusCode.OK, 0, "商品数量",sum);
+        return new Result(true, StatusCode.OK, 0, "商品数量", sum);
     }
-
 
 
 }

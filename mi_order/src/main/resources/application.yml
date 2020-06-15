@@ -1,0 +1,5 @@
+server:
+  port: 9013
+spring:
+  application:
+    name: mi-order

@@ -7,34 +7,22 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import util.IdWorker;
-import util.JwtUtil;
-
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * @author Luomo
- * create 2020/6/5 19:44
+ * create 2020/6/11 10:12
  */
 @SpringBootApplication
 @EnableEurekaClient
 @EnableDiscoveryClient
 @EnableFeignClients
-public class CartApplication {
+public class OrderApplication {
     public static void main(String[] args) {
-        SpringApplication.run(CartApplication.class);
+        SpringApplication.run(OrderApplication.class, args);
     }
 
     @Bean
     public IdWorker idWorker() {
         return new IdWorker(1, 1);
     }
-
-    @Bean
-    public JwtUtil jwtUtil(){
-        return new JwtUtil();
-    }
-
 }

@@ -37,7 +37,12 @@ spring:
           - Path=/api/user/**
           filters:
           - StripPrefix= 1
-
+        - id: mi_order_route
+          uri: lb://mi-order
+          predicates:
+          - Path=/api/order/**
+          filters:
+          - StripPrefix= 1
 server:
   port: 10011
 eureka:
