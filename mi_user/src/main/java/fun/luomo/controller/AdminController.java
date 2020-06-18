@@ -4,7 +4,6 @@ import entity.PageResult;
 import entity.Result;
 import entity.StatusCode;
 import fun.luomo.pojo.Admin;
-import fun.luomo.pojo.User;
 import fun.luomo.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

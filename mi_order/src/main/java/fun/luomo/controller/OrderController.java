@@ -29,11 +29,9 @@ public class OrderController {
 
 	@Autowired
 	private OrderService orderService;
-	
-	
+
 	/**
 	 * 查询全部数据
-	 * @return
 	 */
 	@RequestMapping(method= RequestMethod.GET)
 	public Result findAll(){
@@ -49,7 +47,6 @@ public class OrderController {
 	public Result findById(@PathVariable String id){
 		return new Result(true,0,StatusCode.OK,"查询成功",orderService.findById(id));
 	}
-
 
 	/**
 	 * 分页+多条件查询

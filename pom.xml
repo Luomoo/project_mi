@@ -17,7 +17,6 @@
         <module>mi_ad</module>
         <module>mi_cart</module>
         <module>mi_eureka</module>
-        <module>mi_gateway</module>
         <module>mi_gateway2</module>
         <module>mi_order</module>
         <module>mi_config</module>
@@ -68,11 +67,11 @@
                 <version>${pageHelper.starter.version}</version>
             </dependency>-->
             <!-- mysql驱动 -->
-             <dependency>
-                 <groupId>mysql</groupId>
-                 <artifactId>mysql-connector-java</artifactId>
-                 <version>5.1.46</version>
-             </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>5.1.46</version>
+            </dependency>
             <!--FastDFS客户端
             <dependency>
                 <groupId>com.github.tobato</groupId>
@@ -83,18 +82,10 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-       <!-- <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
             <groupId>com.sun.istack</groupId>
