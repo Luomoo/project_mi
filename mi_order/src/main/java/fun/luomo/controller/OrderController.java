@@ -56,7 +56,8 @@ public class OrderController {
 	 * @return 分页结果
 	 */
 	@RequestMapping(value="/search/{page}/{size}",method=RequestMethod.POST)
-	public Result findSearch(@RequestBody Map searchMap , @PathVariable int page, @PathVariable int size){
+	public Result findSearch(@RequestBody Map searchMap ,
+							 @PathVariable int page, @PathVariable int size){
 		Page<Order> pageList = orderService.findSearch(searchMap, page, size);
 		return  new Result(true,0,StatusCode.OK,"查询成功",  new PageResult<Order>(pageList.getTotalElements(), pageList.getContent()) );
 	}

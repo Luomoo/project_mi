@@ -29,7 +29,6 @@ public class OrderItem implements Serializable{
 	private Integer post_fee;//运费
 	private String is_return;//是否退货,0:未退货，1：已退货
 
-	
 	public String getId() {		
 		return id;
 	}

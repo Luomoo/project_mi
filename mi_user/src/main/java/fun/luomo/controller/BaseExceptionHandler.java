@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * 统一异常处理类
  */
+@SuppressWarnings({"ALL", "AlibabaClassMustHaveAuthor"})
 @ControllerAdvice
 public class BaseExceptionHandler {
 	

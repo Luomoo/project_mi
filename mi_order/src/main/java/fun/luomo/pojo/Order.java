@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.Date;
+
 /**
  * 实体类
  * @author Administrator
@@ -21,12 +23,12 @@ public class Order implements Serializable{
 	private Integer pre_money;//优惠金额
 	private Integer post_fee;//邮费
 	private Integer pay_money;//实付金额
-	private java.util.Date create_time;//订单创建时间
-	private java.util.Date update_time;//订单更新时间
-	private java.util.Date pay_time;//付款时间
-	private java.util.Date consign_time;//发货时间
-	private java.util.Date end_time;//交易完成时间
-	private java.util.Date close_time;//交易关闭时间
+	private Date create_time;//订单创建时间
+	private Date update_time;//订单更新时间
+	private Date pay_time;//付款时间
+	private Date consign_time;//发货时间
+	private Date end_time;//交易完成时间
+	private Date close_time;//交易关闭时间
 	private String shipping_name;//物流名称
 	private String shipping_code;//物流单号
 	private String username;//用户名称

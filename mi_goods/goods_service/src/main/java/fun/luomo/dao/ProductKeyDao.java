@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 
+@SuppressWarnings({"ALL", "AlibabaClassMustHaveAuthor"})
 @Repository
 public interface ProductKeyDao extends JpaRepository<ProductKey, String>, JpaSpecificationExecutor<Product> {
 

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+@SuppressWarnings({"ALL", "AlibabaClassMustHaveAuthor"})
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
 

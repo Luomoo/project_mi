@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import util.IdWorker;
 import util.JwtUtil;
 
+@SuppressWarnings({"ALL", "AlibabaClassMustHaveAuthor"})
 @SpringBootApplication
 @EnableEurekaClient
 public class UserApplication {

@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 /**
  * 安全配置类
  */
+@SuppressWarnings({"ALL", "AlibabaClassMustHaveAuthor"})
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {

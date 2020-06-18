@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
+@SuppressWarnings({"ALL", "AlibabaClassMustHaveAuthor"})
 public class NumberUtils {
 
     public static boolean isInt(Double num) {

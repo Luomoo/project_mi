@@ -6,6 +6,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import util.IdWorker;
 
+@SuppressWarnings({"ALL", "AlibabaClassMustHaveAuthor"})
 @SpringBootApplication
 @EnableEurekaClient
 public class AdApplication {

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings({"ALL", "AlibabaClassMustHaveAuthor"})
 public class JsonUtils {
 
     public static final ObjectMapper mapper = new ObjectMapper();
